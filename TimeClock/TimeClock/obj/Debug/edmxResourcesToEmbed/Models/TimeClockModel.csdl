@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="EmployeeManagementModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="EmployeeManagementEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Administrators" EntityType="EmployeeManagementModel.Administrator" />
+    <EntitySet Name="Employees" EntityType="EmployeeManagementModel.Employee" />
+    <EntitySet Name="Holidays" EntityType="EmployeeManagementModel.Holiday" />
+    <EntitySet Name="Shifts" EntityType="EmployeeManagementModel.Shift" />
+    <AssociationSet Name="FK_Shifts_Employee" Association="EmployeeManagementModel.FK_Shifts_Employee">
+      <End Role="Employee" EntitySet="Employees" />
+      <End Role="Shift" EntitySet="Shifts" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Administrator">
+    <Key>
+      <PropertyRef Name="userName" />
+    </Key>
+    <Property Name="firstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="lastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="userName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="passWord" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Employee">
+    <Key>
+      <PropertyRef Name="IdentificationNumber" />
+    </Key>
+    <Property Name="FirstName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="LastName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="IdentificationNumber" Type="Int32" Nullable="false" />
+    <Property Name="HourlySalary" Type="Decimal" Precision="18" Scale="0" />
+    <NavigationProperty Name="Shifts" Relationship="EmployeeManagementModel.FK_Shifts_Employee" FromRole="Employee" ToRole="Shift" />
+  </EntityType>
+  <EntityType Name="Holiday">
+    <Key>
+      <PropertyRef Name="Name" />
+    </Key>
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Date" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="Shift">
+    <Key>
+      <PropertyRef Name="ShiftID" />
+    </Key>
+    <Property Name="IdentificationNumber" Type="Int32" />
+    <Property Name="StartTime" Type="DateTime" Precision="3" />
+    <Property Name="EndTime" Type="DateTime" Precision="3" />
+    <Property Name="ShiftID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="Employee" Relationship="EmployeeManagementModel.FK_Shifts_Employee" FromRole="Shift" ToRole="Employee" />
+  </EntityType>
+  <Association Name="FK_Shifts_Employee">
+    <End Type="EmployeeManagementModel.Employee" Role="Employee" Multiplicity="0..1" />
+    <End Type="EmployeeManagementModel.Shift" Role="Shift" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="IdentificationNumber" />
+      </Principal>
+      <Dependent Role="Shift">
+        <PropertyRef Name="IdentificationNumber" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

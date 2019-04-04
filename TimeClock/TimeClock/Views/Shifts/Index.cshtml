@@ -1,0 +1,46 @@
+﻿@model IEnumerable<TimeClock.Models.Shift>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p style="color:white">
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table" style="color:white">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.StartTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EndTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Employee.FirstName)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Employee.FirstName)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ShiftID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ShiftID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ShiftID })
+            </td>
+        </tr>
+    }
+
+</table>
